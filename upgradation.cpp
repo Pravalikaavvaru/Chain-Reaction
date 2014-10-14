@@ -35,31 +35,7 @@ class chain_reaction
         }
         }
     
-		/*void addbubble(int i,int j)
-		{
-		  board[i][j].no_bubbles=board[i][j].no_bubbles+1;
-		  if((i==0)&&(j==0)||(i==0)&&(j==9)||(i==9)(j==0)||(i==9)(i==9))
-		  	{
-		  		if(board[i][j].no_bubbles==1)
-		  		{ 
-		  			//call a recursive function//
-		  		}
-		  	}
-		  else if((i==0)||(i==9)||(j==0)||(j==9))
-		  	{
-		  		if(board[i][j].no_bubbles==2)
-		  		{  
-		  			//call the recursive function//
-		  		}
-		  	}	
-		  else
-		  {
-		  	if(board[i][j].no_bubbles==3)
-		  	{  
-		  		//call the recursive function//
-		  	}
-		  }
-		  }*/
+	
         int bomb(int i,int j,char c)
 		{  board[i][j].color=c;
 		   board[i][j].no_bubbles++;
@@ -128,6 +104,10 @@ class chain_reaction
            }
              return flag;
         }
+        char color_check(int i,int j)
+        {
+        	return board[i][j].color;
+        }
 };		  
 int main()
 {   int no_of_players;
@@ -135,11 +115,13 @@ int main()
     int i,j,n1;
     char color[3];
     int flag=0;
+    int correct;//checks if player has entered the right value
+    char check;
     cout<<"enter the size of the grid\n";
     cin>>n1;
 	chain_reaction sample(n1);
 	sample.display_board();
-	cout<<"1. two players(2) 2. three players(3)\n";
+	cout<<"a)two players(2) b)three players(3)(choose 2 or 3)\n";
     cin>>no_of_players;
 	if(no_of_players==2)
 	{   
@@ -147,14 +129,14 @@ int main()
 		color[1]='G';
 		
 	}
-	else
+	else if(no_of_players==3)
 	{   
 		color[0]='R';
 		color[1]='G';
 		color[2]='B';
 	}
 	if(no_of_players==2)
-	{
+	{   
 		cout<<"enter player 1 choice(RED)\n";
 		cout<<"x:\n";
 		cin>>i;
@@ -164,23 +146,47 @@ int main()
 		cout<<"...................\n";
 		sample.display_board();
 		cout<<"...................\n";
+		do
+        {
 		cout<<"enter player 2 choice(GREEN)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[1]);
-		cout<<".....................\n";
-		sample.display_board();
-		cout<<".....................\n";
+		check=sample.color_check(i,j);
+		if((check==color[1])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[1]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
+	    cout<<".........................\n";
+	    sample.display_board();
+	    cout<<".........................\n";
 	while((flag!=1)||(flag!=2))
 	{
+		do
+		{
 		cout<<"enter player 1 choice(RED)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[0]);
+		check=sample.color_check(i,j);
+		if((check==color[0])||(check=='N'))
+		{sample.bomb(i,j,color[0]);
+		 correct=0;
+	    }
+	    else
+	    {
+	     cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
 		flag=sample.check_game_end(flag,color[0]);
 		cout<<flag<<"\n";
 		if(flag==1||flag==2)//to check if the bubbles are of one color//
@@ -192,13 +198,25 @@ int main()
 		cout<<"...................\n";
 		sample.display_board();
 		cout<<"....................\n";
+        do
+        {
 		cout<<"enter player 2 choice(GREEN)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[1]);
-		flag=sample.check_game_end(flag,color[1]);
+		check=sample.color_check(i,j);
+		if((check==color[1])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[1]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
+	    flag=sample.check_game_end(flag,color[1]);
 		cout<<flag<<"\n";
 		if(flag==1||flag==2)//to check if the bubbles are of one color//
 		{
@@ -209,7 +227,7 @@ int main()
 		cout<<"....................\n";
 		sample.display_board();
 		cout<<"....................\n";
-	}	
+	}
     }
     else
     { 
@@ -222,33 +240,69 @@ int main()
 		cout<<"...................\n";
 		sample.display_board();
 		cout<<"...................\n";
+		do
+        {
 		cout<<"enter player 2 choice(GREEN)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[1]);
-		cout<<"....................\n";
+		check=sample.color_check(i,j);
+		if((check==color[1])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[1]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
+        cout<<"....................\n";
 		sample.display_board();
 		cout<<"....................\n";
+		do
+        {
 		cout<<"enter player 3 choice(BLUE)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[2]);
+		check=sample.color_check(i,j);
+		if((check==color[2])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[2]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
 		cout<<"....................\n";
 		sample.display_board();
 		cout<<"....................\n";
 		
     	while(flag!=1||flag!=2)
 	  {
+		do
+        {
 		cout<<"enter player 1 choice(RED)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[0]);
+		check=sample.color_check(i,j);
+		if((check==color[0])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[0]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
 		cout<<"...................\n";
 		flag=sample.check_game_end(flag,color[0]);
 		cout<<flag<<"\n";
@@ -260,12 +314,24 @@ int main()
 		flag=0;
 		sample.display_board();
 		cout<<"...................\n";
+		do
+        {
 		cout<<"enter player 2 choice(GREEN)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[1]);
+		check=sample.color_check(i,j);
+		if((check==color[1])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[1]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
 		cout<<"....................\n";
 		flag=sample.check_game_end(flag,color[1]);
 		cout<<flag<<"\n";
@@ -277,12 +343,24 @@ int main()
 		flag=0;
 		sample.display_board();
 		cout<<"....................\n";
+		do
+        {
 		cout<<"enter player 3 choice(BLUE)\n";
 		cout<<"x:\n";
 		cin>>i;
 		cout<<"y:\n";
 		cin>>j;
-		sample.bomb(i,j,color[2]);
+		check=sample.color_check(i,j);
+		if((check==color[2])||(check=='N'))
+		{
+		 sample.bomb(i,j,color[2]);
+		 correct=0;
+	    }
+	    else
+	    {cout<<"wrong choice!!try again\n";
+	     correct=1;
+	    }
+	    }while(correct==1);
 		cout<<"...................\n";
 		flag=sample.check_game_end(flag,color[2]);
 		cout<<flag<<"\n";
@@ -296,6 +374,7 @@ int main()
 		cout<<"....................\n";
 	}	
     }
+    sample.display_board();
     if(win==1)
     {
     	cout<<"player one wins:)\n";
